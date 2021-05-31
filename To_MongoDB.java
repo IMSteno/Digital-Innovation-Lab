@@ -36,6 +36,20 @@ public class To_MongoDB{
         lines_collection = database.getCollection("lines");
     }
 
+    public List<String> getStopsName(String entry_id, String exit_id){
+
+        Document temp = new Document();
+        List<String> return_stops = new ArrayList<String>;
+
+        temp = (Document) lines_collection.find({{Stops: {_id: entry_id});
+        return_stops.add(temp.getString("Stop_Name"));
+
+        temp = (Document) lines_collection.find({{Stops: {_id: exit_id});
+        return_stops.add(temp.getString("Stop_Name"));
+
+        return return_stops;
+    }
+
     public List<Document> getUserBookings(String user_id){
 
         return bookings_collection.find(new Document("Booking_User_ID", user_id)).into(new ArrayList<>());
