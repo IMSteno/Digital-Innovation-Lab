@@ -8,6 +8,7 @@ import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -38,6 +39,18 @@ public class To_MongoDB{
         reports_collection = database.getCollection("reports");
         vehicles_status_collection = database.getCollection("vehicles_status");
         lines_collection = database.getCollection("lines");
+    }
+
+    public Boolean checkReportExistance(String booking_id, String user_id){
+
+        Document temp = null;
+
+        temp = (Document) reports_collection.find(and(eq("Related_Booking_ID",booking_id), eq("Reporting_User_ID", user_id)));
+
+        if(temp == null)
+            return false;
+
+        return true;
     }
 
     public List<Document> getUserBookings(String user_id){
