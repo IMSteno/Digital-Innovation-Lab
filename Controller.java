@@ -36,7 +36,7 @@ public class Controller {
 
     }
 
-    @PostMapping("/users/{userID}/reports/insert")
+    @PostMapping("/users/{userID}/reports")
     @ResponseStatus(HttpStatus.CREATED)
     public List<ReadableReportUser> storeUserReport(@PathVariable String userID, @RequestBody ReportUser reportUser){
         System.out.println("Sono entrato nello store userReport");
@@ -60,7 +60,7 @@ public class Controller {
 
     }
 
-    @GetMapping("/users/{userID}/reports/receive")
+    @GetMapping("/users/{userID}/reports")
     @ResponseStatus(HttpStatus.OK)
     public List<ReadableReportUser> getAllReportsUser(@PathVariable String userID){
         // verificare che l'utente associato all'ID passato esista
@@ -77,7 +77,7 @@ public class Controller {
              */
     }
 
-    @GetMapping("/drivers/{driverID}/reports/receive")
+    @GetMapping("/drivers/{driverID}/reports")
     @ResponseStatus(HttpStatus.OK)
     public List<ReadableReportDriver> getAllReportsDriver(@PathVariable String driverID){
         // verificare che l'utente associato all'ID passato esista
@@ -94,7 +94,7 @@ public class Controller {
              */
     }
 
-    @PutMapping("/drivers/{driverID}/reports/verify")
+    @PutMapping("/drivers/{driverID}/reports")
     @ResponseStatus(HttpStatus.OK)
     public void verifyReport(@RequestBody ProcessedReport processedReport){
         //try {

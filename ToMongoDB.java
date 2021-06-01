@@ -46,6 +46,18 @@ public class ToMongoDB{
         lines_collection = database.getCollection("lines");
     }
 
+    public Boolean checkReportExistance(String booking_id, String user_id){
+
+        Document temp;
+
+        temp = (Document) reports_collection.find(and(eq("Related_Booking_ID",booking_id), eq("Reporting_User_ID", user_id))).first();
+
+        if(temp == null)
+            return false;
+
+        return true;
+    }
+
     public List<Document> getUserBookings(String user_id){
 
         return bookings_collection.find(new Document("Booking_User_ID", user_id)).into(new ArrayList<>());
@@ -56,7 +68,7 @@ public class ToMongoDB{
         List<Document> all_bookings = new ArrayList<Document>();
 
         for(String id : bookings_ids){
-            Document temp = (Document) (bookings_collection.find(eq("_id",id)));
+            Document temp = (Document) (bookings_collection.find(eq("_id",new ObjectId(id))));
             all_bookings.add(temp);
         }
         return all_bookings;
@@ -104,6 +116,6 @@ public class ToMongoDB{
 
     public void consolidateReportStatus(String report_id, int verification_result, String comment){
 
-        reports_collection.updateOne(eq("_id", report_id), combine(set("Verification_Status", verification_result), set("Driver_Comment", comment), currentDate("Verification_Date")));
+        reports_collection.updateOne(eq("_id", new ObjectId(report_id)), combine(set("Verification_Status", verification_result), set("Driver_Comment", comment), currentDate("Verification_Date")));
     }
 }
