@@ -3,6 +3,10 @@ import com.mongodb.client.*;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Updates.*;
 import static com.mongodb.client.model.Updates.currentDate;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -34,20 +38,6 @@ public class To_MongoDB{
         reports_collection = database.getCollection("reports");
         vehicles_status_collection = database.getCollection("vehicles_status");
         lines_collection = database.getCollection("lines");
-    }
-
-    public List<String> getStopsName(String entry_id, String exit_id){
-
-        Document temp = new Document();
-        List<String> return_stops = new ArrayList<String>;
-
-        temp = (Document) lines_collection.find({{Stops: {_id: entry_id});
-        return_stops.add(temp.getString("Stop_Name"));
-
-        temp = (Document) lines_collection.find({{Stops: {_id: exit_id});
-        return_stops.add(temp.getString("Stop_Name"));
-
-        return return_stops;
     }
 
     public List<Document> getUserBookings(String user_id){
