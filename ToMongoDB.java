@@ -12,9 +12,11 @@ import com.mongodb.client.model.Projections;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.stereotype.Component;
 
 import javax.print.Doc;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -73,15 +75,18 @@ public class ToMongoDB{
         Date now = new Date();
         Document temp;
 
-        temp = (Document) bookings_collection.find(new Document("_id", booking_id)).first();
+        ObjectId key = new ObjectId(booking_id);
+
+        temp = (Document) bookings_collection.find(new Document("_id", key)).first();
+        System.out.println(temp);
         String entry = temp.getString("Entry_Stop");
         String exit = temp.getString("Exit_Stop");
         String v_id = temp.getString("Vehicle_ID");
 
         if(report_exit.equals("0"))
-            temp = (Document) vehicles_status_collection.find(and(eq("Vehicle_ID", v_id), eq("Date", date_formatter.format(today)), eq("Current_Stop", entry)));
+            temp = (Document) vehicles_status_collection.find(and(eq("Vehicle_ID", v_id), eq("Date", date_formatter.format(today)), eq("Current_Stop", entry))).first();
         else
-            temp = (Document) vehicles_status_collection.find(and(eq("Vehicle_ID", v_id), eq("Date", date_formatter.format(today)), eq("Current_Stop", exit)));
+            temp = (Document) vehicles_status_collection.find(and(eq("Vehicle_ID", v_id), eq("Date", date_formatter.format(today)), eq("Current_Stop", exit))).first();
 
         ObjectId d_id = temp.getObjectId("Current_Driver_ID");
 
