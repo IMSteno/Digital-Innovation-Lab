@@ -1,4 +1,4 @@
-package net.codejava;
+package it.polimi.hand;
 
 public class ProcessedReport {
 
